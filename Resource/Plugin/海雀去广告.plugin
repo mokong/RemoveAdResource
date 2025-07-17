@@ -1,0 +1,32 @@
+#!name=海雀去广告
+#!desc=去除开屏广告
+#!author=MW
+#!homepage=https://github.com/mokong
+#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Weibo-00.png
+#!raw-url=https://github.com/fmz200/wool_scripts/raw/main/Loon/plugin/weibo.plugin
+#!tag = 去广告, 微博, fmz200
+#!system = iOS, iPadOS
+#!system_version = 
+#!loon_version = 
+#!date=2025-07-17 17:52:59
+#############################################
+# > "reject"        策略返回 HTTP 状态码 404,不附带任何额外内容
+# > "reject-200"    策略返回 HTTP 状态码 200,不附带任何额外内容
+# > "reject-img"    策略返回 HTTP 状态码 200,同时附带 1px gif
+# > "reject-dict"   策略返回 HTTP 状态码 200,同时附带一个空的 JSON 对象
+# > "reject-array"  策略返回 HTTP 状态码 200,同时附带一个空的 JSON 数组
+# > "reject-drop"   拒绝并丢弃请求，且不会返回任何响应。
+#############################################
+
+[Argument]
+
+
+[Rule]
+# 收集用户信息，上传用户日志的请求
+# 开屏广告
+URL-REGEX, ^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetSplashAds, REJECT-200
+# 横幅广告
+URL-REGEX, ^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetBannerAds, REJECT-200
+
+[MITM]
+hostname = *.ihaique.net
