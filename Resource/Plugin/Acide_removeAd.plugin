@@ -26,17 +26,17 @@ RemoveFlashAds = switch,true,false,tag = 移除海雀开屏广告,desc = 移除�
 [Rule]
 # 收集用户信息，上传用户日志的请求
 # 开屏广告
-URL-REGEX, ^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetSplashAds, REJECT-DROP
+URL-REGEX, ^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetSplashAds, REJECT-DICT
 # 横幅广告
-URL-REGEX, ^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetBannerAds, REJECT-DROP
+URL-REGEX, ^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetBannerAds, REJECT-DICT
 
 [Rewrite]
-^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetSplashAds reject-200
-^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetBannerAds reject-200
+^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetSplashAds reject-dict
+^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetBannerAds reject-dict
 
 [Script]
 # 移除海雀开屏广告
-http-response ^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/(AppadGetSplashAds|AppadGetBannerAds)\? script-path=https://github.com/mokong/RemoveAdResource/blob/main/Resource/JS/Acide_removeAd.js, requires-body=true, timeout=60, tag=移除海雀开屏广告, enable={RemoveFlashAds}
+http-response ^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/(AppadGetSplashAds|AppadGetBannerAds)\? script-path=https://github.com/mokong/RemoveAdResource/blob/main/Resource/JS/Acide_removeAd.js, requires-body=true, timeout=3, tag=移除海雀开屏广告, enable={RemoveFlashAds}
 
 
 [MITM]
