@@ -3,11 +3,12 @@
 #!author=MW
 #!homepage=https://github.com/mokong
 #!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/Weibo-00.png
-#!raw-url=https://github.com/mokong/RemoveAdResource/blob/main/Resource/Plugin/%E6%B5%B7%E9%9B%80%E5%8E%BB%E5%B9%BF%E5%91%8A.plugin
-#!tag = 去广告, 海雀
-#!system = iOS, iPadOS
-#!system_version = 
-#!loon_version = 
+#!input = 海雀
+#!input = author
+#!system = iOS,iPadOS,tvOS,macOS
+#!system_version = 15
+#!loon_version = 3.2.1(372)
+#!tag = 去广告,海雀
 #!date=2025-07-17 17:52:59
 #############################################
 # > "reject"        策略返回 HTTP 状态码 404,不附带任何额外内容
@@ -19,6 +20,7 @@
 #############################################
 
 [Argument]
+RemoveFlashAds = switch,true,false,tag = 移除海雀开屏广告,desc = 移除海雀开屏广告
 
 
 [Rule]
@@ -27,6 +29,15 @@
 URL-REGEX, ^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetSplashAds, REJECT-200
 # 横幅广告
 URL-REGEX, ^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetBannerAds, REJECT-200
+
+[Rewrite]
+^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetSplashAds reject-200
+^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/AppadGetBannerAds reject-200
+
+[Script]
+# 微博移除发现页广告
+http-response ^https:\/\/app-api-32\.ihaique\.net:443\/api\/app\/v5\/appad\/cmd\/(AppadGetSplashAds|AppadGetBannerAds)\? script-path=https://github.com/mokong/RemoveAdResource/blob/main/Resource/JS/Acide_removeAd.js, requires-body=true, timeout=60, tag=移除海雀开屏广告, enable={RemoveFlashAds}
+
 
 [MITM]
 hostname = *.ihaique.net
